@@ -1,0 +1,3 @@
+#Notizen zum Projekt
+
+- IDEE der DAO (Data Access Object): Den Zugriff auf eine Datenbank apstrachieren über eine vereinte Schnitstelle die mit Daten Transver Objekten arbeitet
