@@ -101,21 +101,94 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
         }
     }
 
-
-
-
     @Override
     public Optional<Course> insert(Course entity) {
-        return Optional.empty();
+        Assert.notNull(entity);
+
+        try{
+            String sql = "INSERT INTO `courses`(`name`, `description`, `hours`, `begindate`, `enddate`, `coursetype`) VALUES (?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1,entity.getName());
+            preparedStatement.setString(2,entity.getDescription());
+            preparedStatement.setInt(3,entity.getHours());
+            preparedStatement.setDate(4,entity.getBeginDate());
+            preparedStatement.setDate(5,entity.getEndDate());
+            preparedStatement.setString(6,entity.getCourseType().toString());
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if(affectedRows == 0) {
+                return Optional.empty();
+            }
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                //wir holen uns die generierte ID die beim inserten erstllt wurde
+                return this.getByID(generatedKeys.getLong(1));
+            }else{
+                return Optional.empty();
+            }
+
+        }catch(SQLException sqlException){
+            throw new DatabaseException(sqlException.getMessage());
+        }
     }
+
+
+
 
     @Override
     public Optional<Course> update(Course entity) {
-        return Optional.empty();
+
+        Assert.notNull(entity);
+
+        String sql = "UPDATE `courses` SET `name`=?,`description`=?,`hours`=?,`begindate`=?,`enddate`=?,`coursetype`=? WHERE `course`.`id` = ?";
+
+        if(countCoursesInDbWithId(entity.getId()) == 0) {
+            return Optional.empty();
+        } else {
+            try{
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setString(1,entity.getName());
+                preparedStatement.setString(2,entity.getDescription());
+                preparedStatement.setInt(3,entity.getHours());
+                preparedStatement.setDate(4,entity.getBeginDate());
+                preparedStatement.setDate(5,entity.getEndDate());
+                preparedStatement.setString(6,entity.getCourseType().toString());
+
+                preparedStatement.setLong(7,entity.getId());
+
+                int affectedRows = preparedStatement.executeUpdate();
+                if(affectedRows == 0) {
+                    return Optional.empty();
+                }else{
+                    return this.getByID(entity.getId());
+                }
+
+            }catch(SQLException sqlException){
+                throw new DatabaseException(sqlException.getMessage());
+            }
+        }
     }
+
+
+
 
     @Override
     public void deleatById(Long id) {
+
+        Assert.notNull(id);
+        String sql = "DELEATE feom `courses` WHERE `id` = ?";
+        if(countCoursesInDbWithId(id) == 1) {
+
+            try {
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                preparedStatement.setLong(1, id);
+                preparedStatement.executeUpdate();
+            }catch (SQLException sqlException) {
+                throw new DatabaseException(sqlException.getMessage());
+            }
+        }
 
     }
 
