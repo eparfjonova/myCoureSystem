@@ -10,6 +10,7 @@ import domain.InvalidValueException;
 import javax.xml.crypto.Data;
 import java.sql.Date;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -71,7 +72,7 @@ public class Cli {
 
     private void runningCourses() {
         System.out.println("Aktuell laufende Kurse: ");
-        List<Course> list;
+        List<Course> list = new ArrayList<>();
 
         try{
             list = repo.findAllRunningCourses();

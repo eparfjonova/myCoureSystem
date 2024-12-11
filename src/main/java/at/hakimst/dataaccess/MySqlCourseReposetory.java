@@ -246,11 +246,10 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
                         )
                 );
             }
+            return courseList;
         }catch (SQLException sqlException){
             throw new DatabaseException(sqlException.getMessage());
         }
-
-        return null;
     }
 
 
