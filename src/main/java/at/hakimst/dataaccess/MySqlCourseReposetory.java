@@ -193,6 +193,67 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
     }
 
 
+    @Override
+    public List<Course> findAllCouresesByDescriptionOrName(String serchText) {
+
+        try{
+
+            String sql = "SELECT * FROM `courses` WHERE LOWER(`description`) LIKE LOWER(?) OR LOWER(`name`) LIKE LOWER(?)";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,"%"+serchText+"%");
+            preparedStatement.setString(2,"%"+serchText+"%");
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Course> courseList = new ArrayList<>();
+
+            while(resultSet.next()) {
+                courseList.add(new Course(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("hours"),
+                        resultSet.getDate("begindate"),
+                        resultSet.getDate("enddate"),
+                        CourseType.valueOf(resultSet.getString("coursetype"))
+                    )
+                );
+            }
+            return courseList;
+        } catch(SQLException sqlException){
+            throw new DatabaseException(sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public List<Course> findAllRunningCourses() {
+
+        String sql = "SELECT * FROM `courses` WHERE NOW()<`enddate`";
+
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            ArrayList<Course> courseList = new ArrayList<>();
+            while (resultSet.next()) {
+                courseList.add(new Course(
+                                resultSet.getLong("id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("description"),
+                                resultSet.getInt("hours"),
+                                resultSet.getDate("begindate"),
+                                resultSet.getDate("enddate"),
+                                CourseType.valueOf(resultSet.getString("coursetype"))
+                        )
+                );
+            }
+        }catch (SQLException sqlException){
+            throw new DatabaseException(sqlException.getMessage());
+        }
+
+        return null;
+    }
+
+
 
 
     @Override
@@ -206,11 +267,6 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
     }
 
     @Override
-    public List<Course> findAllCouresesByDescriptionOrName(String serchText) {
-        return List.of();
-    }
-
-    @Override
     public List<Course> findAllCouresesByCourseType(CourseType courseType) {
         return List.of();
     }
@@ -219,10 +275,4 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
     public List<Course> findAllCoursesByStartDate(Date startDate) {
         return List.of();
     }
-
-    @Override
-    public List<Course> findAllRunningCourses() {
-        return List.of();
-    }
-
 }

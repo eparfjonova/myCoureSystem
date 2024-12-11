@@ -51,6 +51,12 @@ public class Cli {
                 case "5":
                     System.out.println("Kurs löschen");
                     deleteCourse();
+                case "6":
+                    System.out.println("Kurssuche");
+                    courseSerch();
+                case "7":
+                    System.out.println("Laufende Kurse");
+                    runningCourses();    
                     break;
                 case "x":
                     System.out.println("Auf Wiedersehen");
@@ -61,6 +67,39 @@ public class Cli {
             }
         }
         scan.close();
+    }
+
+    private void runningCourses() {
+        System.out.println("Aktuell laufende Kurse: ");
+        List<Course> list;
+
+        try{
+            list = repo.findAllRunningCourses();
+            for(Course course : list){
+                System.out.println(course);
+            }
+        }catch(DatabaseException databaseException){
+            System.out.println("Datenbankfehler bei Kurs-Anzeige für laufende Kurse: " + databaseException.getMessage());
+        }catch(Exception exception){
+            System.out.println("Unbekannter Fehler bei Kurs-Anzeige für laufende Kurse: " + exception.getMessage());
+        }
+    }
+
+    private void courseSerch() {
+        System.out.println("Geben sie eine Suchbegriff an!");
+        String serchString = scan.nextLine();
+        List<Course> courseList;
+
+        try{
+            courseList = repo.findAllCouresesByDescriptionOrName(serchString);
+            for(Course course : courseList){
+                System.out.println(course);
+            }
+        }catch (DatabaseException databaseException){
+            System.out.println("Datenbankfehler bei der Kurssuche: " + databaseException.getMessage());
+        }catch (Exception exception){
+            System.out.println("Unbekannter Fehler bei der Kurssuche: " + exception.getMessage());
+        }
     }
 
     private void deleteCourse() {
@@ -237,7 +276,8 @@ public class Cli {
     private void showMenue(){
         System.out.println("--- KURSMANAGEMENT ---");
         System.out.println("(1) Kurs eingeben \t(2) Alle Kurse anzeigen \t(3) Kursdeteils anzeigen");
-        System.out.println("(4) Kursdetails ändern \t(5) Kurs löschen \t(x) xxx");
+        System.out.println("(4) Kursdetails ändern \t(5) Kurs löschen \t(6) Kurssuche");
+        System.out.println("(7) Laufende Kurse \t(-) --- \t(-) ---");
         System.out.println("(x) Ende für das Komandozeilenmenue");
     }
 
