@@ -1,14 +1,22 @@
 package at.hakimst.ui;
 
+import at.hakimst.dataaccess.DatabaseException;
+import at.hakimst.dataaccess.MyCourseReposetory;
+import at.hakimst.dataaccess.MySqlCourseReposetory;
+import domain.Course;
+
 import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cli {
 
     Scanner scan;
+    MyCourseReposetory repo;
 
-    public Cli(){
+    public Cli(MyCourseReposetory repo){
         this.scan = new Scanner(System.in);
+        this.repo = repo;
     }
 
 
@@ -25,6 +33,7 @@ public class Cli {
                     break;
                 case "2":
                     System.out.println("Alle Kurse anzeigen");
+                    showAllCoureses();
                     break;
                 case "3":
                     break;
@@ -37,6 +46,25 @@ public class Cli {
             }
         }
         scan.close();
+    }
+
+    private void showAllCoureses() {
+        List<Course> list = null;
+        try{
+            list = repo.getAll();
+            if(list.size() > 0){
+                for(Course course : list){
+                    System.out.println(course);
+                }
+            }else{
+                System.out.println("Kursliste leer!");
+            }
+
+        }catch(DatabaseException databaseException){
+            System.out.println("Datenbanfeher bei Anzeige aller Kurse: " + databaseException.getMessage());
+        }catch(Exception exception){
+            System.out.println("Unbekannter Feher bei Anzeige aller Kurse: " + exception.getMessage());
+        }
     }
 
     private void showMenue(){

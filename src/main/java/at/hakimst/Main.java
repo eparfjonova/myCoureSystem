@@ -1,31 +1,21 @@
 package at.hakimst;
 
-import at.hakimst.dataaccess.MySqlDatabaseConnection;
+import at.hakimst.dataaccess.MySqlCourseReposetory;
 import at.hakimst.ui.Cli;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
 
-
-        Cli myCli = new Cli();
-        myCli.start();
-
-
-        try {
-            Connection myConnection = MySqlDatabaseConnection.getConnection("jdbc:mysql://127.0.0.1:3306/kurssystem", "root","");
-            System.out.println("Verbundung aufgebaut");
-
-
-
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        try{
+            Cli myCli = new Cli(new MySqlCourseReposetory());
+            myCli.start();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Datenbankfehler: " + e.getMessage() + " SQL State: " + e.getSQLState());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Datenbankfehler: " + e.getMessage());
         }
 
     }
-
 }
