@@ -189,7 +189,6 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
                 throw new DatabaseException(sqlException.getMessage());
             }
         }
-
     }
 
 
