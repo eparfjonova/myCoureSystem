@@ -3,4 +3,53 @@
 - IDEE der DAO (Data Access Object): Den Zugriff auf eine Datenbank apstrachieren über eine vereinte Schnitstelle die mit Daten Transver Objekten arbeitet
 - (erster Punkt Video 6 3:11 aufgezeichnet)
 - 7. Videos sind für CRUD
--
+
+
+#JDBC DAO - Dokumentation
+
+##Einführung in JDBC und DAO
+-JDBC ist eine Technologie, die es ermöglicht, Java-Anwendungen mit Datenbanken wie MySQL zu verbinden. Das DAO-Pattern wird verwendet, um den Zugriff auf die Datenbank logisch zu strukturieren und den Code sauber und flexibel zu halten. Dadurch können Datenbanken leicht ausgetauscht werden.
+
+##Projektsetup
+Um das Projekt einzurichten, wurden folgende Schritte durchgeführt:
+-Erstellung der Datenbank "KursSystem".
+-Hinzufügen einer Tabelle "Courses" mit den Spalten:
+-ID: Automatisch inkrementierend und als Primärschlüssel definiert.
+-Name: Ein Textfeld mit maximal 200 Zeichen.
+-Description: Ein Feld für umfangreiche Beschreibungen.
+-Hours: Ein ganzzahliger Wert für die Dauer.
+-BeginDate und EndDate: Datumsfelder.
+-CourseType: Ein Feld zur Kategorisierung (z. B. "ZA" oder "OE").
+Einrichtung eines Maven-Projekts in IntelliJ IDEA mit der MySQL-Dependency.
+
+##Datenbankverbindung mit Singleton
+Um die Verbindung zur Datenbank effizient zu gestalten, wurde das Singleton-Pattern verwendet. Dieses stellt sicher, dass während der Laufzeit nur eine einzige Instanz der Verbindung existiert.
+Vorteile des Singleton-Patterns
+-Verhindert mehrfaches Öffnen von Verbindungen.
+-Reduziert den Ressourcenverbrauch.
+-Vereinfacht die Wartung des Codes.
+
+##Umsetzung
+-Eine spezielle Klasse verwaltet die Verbindung und stellt sicher, dass immer dieselbe Instanz verwendet wird.
+-Kommandozeilen-Interface (CLI) in Java
+-Das Kommandozeilen-Interface dient zur Interaktion mit der Datenbank über Benutzereingaben.
+
+##Aufbau des CLI
+-Verwendung eines Scanners zur Eingabe von Daten.
+-Eine Schleife sorgt für die wiederholte Anzeige des Menüs, bis das Programm beendet wird.
+-Verarbeitung der Eingaben mit einer Switch-Case-Struktur.
+-Fehlerbehandlung zum Umgang mit ungültigen Eingaben.
+-Das CLI ermöglicht eine benutzerfreundliche Bedienung und vereinfacht die Verwaltung der Datenbank.
+
+##CRUD-Methoden
+-Zur Verwaltung der Datenbank wurden vier grundlegende Operationen implementiert:
+-Create (Datensatz erstellen)
+-Ermöglicht das Hinzufügen neuer Datensätze zur Tabelle. Benötigt werden alle relevanten Informationen wie Name, Beschreibung, Dauer, Anfangs- und Enddatum sowie der Kurstyp.
+-Read (Datensätze lesen)
+-Bietet die Möglichkeit, vorhandene Datensätze aus der Tabelle auszulesen und anzuzeigen. Alle Datensätze oder spezifische Einträge können abgefragt werden.
+-Update (Datensatz aktualisieren)
+-Erlaubt die Bearbeitung bestehender Datensätze. Beispielsweise können Namen, Beschreibungen oder andere Attribute aktualisiert werden.
+-Delete (Datensatz löschen)
+-Löscht Datensätze anhand ihrer ID aus der Tabelle. Diese Operation wird verwendet, um nicht mehr benötigte Einträge zu entfernen.
+-Die CRUD-Methoden stellen sicher, dass die Tabelle "Courses" effizient und strukturiert verwaltet werden kann.
+
