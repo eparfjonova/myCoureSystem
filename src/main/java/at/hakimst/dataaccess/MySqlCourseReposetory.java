@@ -178,7 +178,7 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
     public void deleatById(Long id) {
 
         Assert.notNull(id);
-        String sql = "DELEATE feom `courses` WHERE `id` = ?";
+        String sql = "DELETE FROM `courses` WHERE `id` = ?";
         if(countCoursesInDbWithId(id) == 1) {
 
             try {
