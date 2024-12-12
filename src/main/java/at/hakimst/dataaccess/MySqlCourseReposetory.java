@@ -18,7 +18,7 @@ public class MySqlCourseReposetory implements MyCourseReposetory{
     public MySqlCourseReposetory() throws SQLException, ClassNotFoundException {
         System.out.println("Connection: " + con);
         //this.con = MySqlDatabaseConnection.getConnection("jdbc:mysql://127.0.0.1:3306/imstkurssystem","root","");
-        this.con = MySqlDatabaseConnection.getConnection("jdbc:mysql://localhost:3306/imstkurssystem",  "root", "");
+        this.con = MysqlDatabaseConnection.getConnection("jdbc:mysql://localhost:3306/imstkurssystem",  "root", "");
         System.out.println("Connection123123123: " + con);
 
     }
