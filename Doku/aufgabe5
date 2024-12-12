@@ -1,0 +1,45 @@
+#Programm mit Buchungsklasse erweitern
+
+##Neue Domänenklasse: Buchung
+###Attribute:
+-BuchungsID (Primary Key, int)
+-StudentID (Foreign Key, int)
+-KursID (Foreign Key, int)
+-Datum (Date)
+-Status (String, z. B. "gebucht", "storniert")
+
+Methoden:
+-Konstruktor: Initialisierung mit allen Attributen
+-Getter und Setter generieren und auf Null Testen
+-toString(): Ausgabe aller Attribute als String
+
+##2. DAO für Buchungen
+###Interface: MyBookingRepository
+###Methoden:
+-createBooking(Buchung buchung): Neue Buchung erstellen
+-deleteBooking(int buchungsID): Buchung löschen
+-updateBookingStatus(int buchungsID, String status): Status ändern
+-findBookingsByStudent(int studentID): Alle Buchungen eines Studenten anzeigen
+-findBookingsByCourse(int kursID): Alle Buchungen eines Kurses anzeigen
+
+##Implementierung: MySqlBookingRepository
+-CRUD-Methoden für Buchungen einfügen
+-Zusätzliche Methoden implementieren wie findBookingsByCourse/-Student
+
+##3. CLI-Erweiterung
+###Neue Menüpunkte:
+-1. Neue Buchung erstellen
+-2. Buchung stornieren
+-3. Buchungsstatus ändern
+-4. Alle Buchungen eines Studenten anzeigen
+-5. Alle Buchungen eines Kurses anzeigen
+
+##4. Anwendungsfälle
+###Buchung erstellen:
+-Student meldet sich zu einem Kurs an.
+###Buchung stornieren:
+-Student storniert eine bestehende Buchung.
+###Status ändern:
+-Administrator markiert eine Buchung als „abgeschlossen“ oder „storniert“.
+###Buchungen anzeigen:
+-Übersicht aller Buchungen eines Studenten oder Kurses.

@@ -2,14 +2,13 @@ package at.hakimst.ui;
 
 import at.hakimst.dataaccess.DatabaseException;
 import at.hakimst.dataaccess.MyCourseReposetory;
-import at.hakimst.dataaccess.MySqlCourseReposetory;
+import at.hakimst.dataaccess.MySqlStudentReposetory;
 import domain.Course;
 import domain.CourseType;
 import domain.InvalidValueException;
+import domain.Student;
 
-import javax.xml.crypto.Data;
 import java.sql.Date;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +68,8 @@ public class Cli {
         }
         scan.close();
     }
+
+
 
     private void runningCourses() {
         System.out.println("Aktuell laufende Kurse: ");

@@ -1,6 +1,7 @@
 package at.hakimst;
 
 import at.hakimst.dataaccess.MySqlCourseReposetory;
+import at.hakimst.dataaccess.MySqlStudentReposetory;
 import at.hakimst.ui.Cli;
 
 import java.sql.SQLException;
